@@ -2,7 +2,9 @@ module Main exposing (main)
 
 import Browser
 import Html exposing (..)
+import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import SelectType
 
 
 type Person
@@ -26,7 +28,7 @@ type alias Model =
 
 init : Model
 init =
-    { person = Dude }
+    { person = Kiddo }
 
 
 type Msg
@@ -81,14 +83,26 @@ viewPerson person =
 
 view : Model -> Html Msg
 view model =
+    let
+        inputHandler =
+            \x -> ChangePerson (stringToPerson x)
+
+        viewOption =
+            \x -> option [ selected (x == model.person) ] [ text (personToText x) ]
+
+        stringToMessage =
+            \x -> ChangePerson (stringToPerson x)
+    in
     div []
         [ viewPerson model.person
         , select
-            [ onInput (\x -> ChangePerson (stringToPerson x)) ]
-            (List.map
-                (\x -> option [] [ text (personToText x) ])
-                persons
-            )
+            [ onInput inputHandler ]
+            (List.map viewOption persons)
+        , SelectType.viewSelect
+            stringToMessage
+            personToText
+            persons
+            model.person
         ]
 
 
