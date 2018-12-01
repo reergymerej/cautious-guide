@@ -19,6 +19,7 @@ type Food
     | Fruit
     | Grain
     | Fish
+    | MysteryFood
 
 
 type alias Model =
@@ -36,6 +37,7 @@ init =
 
 type Msg
     = ChangePerson Person
+    | ChangeFood Food
 
 
 update : Msg -> Model -> Model
@@ -43,6 +45,9 @@ update msg model =
     case msg of
         ChangePerson person ->
             { model | person = person }
+
+        ChangeFood food ->
+            { model | food = food }
 
 
 viewPerson : Person -> Html Msg
@@ -89,7 +94,7 @@ personSelect =
         stringToMessage =
             \x -> ChangePerson (stringToPerson x)
     in
-    SelectType.viewSelect stringToMessage personToText
+    SelectType.viewSelect stringToMessage personToText []
 
 
 persons : List Person
@@ -98,6 +103,25 @@ persons =
     , Dudette
     , Kiddo
     ]
+
+
+stringToFood : String -> Food
+stringToFood string =
+    case string of
+        "fruit" ->
+            Fruit
+
+        "veggie" ->
+            Veggie
+
+        "grain" ->
+            Grain
+
+        "fish" ->
+            Fish
+
+        _ ->
+            MysteryFood
 
 
 foodToText : Food -> String
@@ -115,6 +139,37 @@ foodToText food =
         Fish ->
             "fish"
 
+        MysteryFood ->
+            "_"
+
+
+foodSelect =
+    let
+        stringToMessage =
+            \x -> ChangeFood (stringToFood x)
+
+        optionAttrs =
+            [ classList
+                [ ( "foo", True )
+                , ( "bar", True )
+                ]
+            ]
+    in
+    SelectType.viewSelect stringToMessage foodToText optionAttrs
+
+
+
+-- optionAttrs
+
+
+foods : List Food
+foods =
+    [ Veggie
+    , Fruit
+    , Grain
+    , Fish
+    ]
+
 
 viewFood : Food -> Html Msg
 viewFood food =
@@ -130,6 +185,7 @@ view model =
         , personSelect persons model.person
         , hr [] []
         , viewFood model.food
+        , foodSelect foods model.food
         ]
 
 

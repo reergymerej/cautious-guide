@@ -5,11 +5,14 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
-viewSelect : (String -> msg) -> (a -> String) -> List a -> a -> Html msg
-viewSelect stringToMsg typeToString types selectedType =
+viewSelect : (String -> msg) -> (a -> String) -> List (Attribute msg) -> List a -> a -> Html msg
+viewSelect stringToMsg typeToString optionAttrs types selectedType =
     let
         viewOption =
-            \x -> option [ selected (x == selectedType) ] [ text (typeToString x) ]
+            \x ->
+                option
+                    (selected (x == selectedType) :: optionAttrs)
+                    [ text (typeToString x) ]
     in
     select
         [ onInput stringToMsg ]
