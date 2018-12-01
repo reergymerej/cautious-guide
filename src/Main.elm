@@ -84,20 +84,11 @@ viewPerson person =
 view : Model -> Html Msg
 view model =
     let
-        inputHandler =
-            \x -> ChangePerson (stringToPerson x)
-
-        viewOption =
-            \x -> option [ selected (x == model.person) ] [ text (personToText x) ]
-
         stringToMessage =
             \x -> ChangePerson (stringToPerson x)
     in
     div []
         [ viewPerson model.person
-        , select
-            [ onInput inputHandler ]
-            (List.map viewOption persons)
         , SelectType.viewSelect
             stringToMessage
             personToText
