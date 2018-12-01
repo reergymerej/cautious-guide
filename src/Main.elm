@@ -14,13 +14,24 @@ type Person
     | None
 
 
+type Food
+    = Veggie
+    | Fruit
+    | Grain
+    | Fish
+
+
 type alias Model =
-    { person : Person }
+    { person : Person
+    , food : Food
+    }
 
 
 init : Model
 init =
-    { person = Kiddo }
+    { person = Kiddo
+    , food = Fruit
+    }
 
 
 type Msg
@@ -89,11 +100,36 @@ persons =
     ]
 
 
+foodToText : Food -> String
+foodToText food =
+    case food of
+        Fruit ->
+            "fruit"
+
+        Veggie ->
+            "veggie"
+
+        Grain ->
+            "grain"
+
+        Fish ->
+            "fish"
+
+
+viewFood : Food -> Html Msg
+viewFood food =
+    div []
+        [ text (foodToText food)
+        ]
+
+
 view : Model -> Html Msg
 view model =
     div []
         [ viewPerson model.person
         , personSelect persons model.person
+        , hr [] []
+        , viewFood model.food
         ]
 
 
