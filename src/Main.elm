@@ -9,6 +9,7 @@ type Person
     = Dude
     | Dudette
     | Kiddo
+    | None
 
 
 persons : List Person
@@ -51,6 +52,25 @@ personToText person =
         Kiddo ->
             "kiddo"
 
+        None ->
+            "none"
+
+
+stringToPerson : String -> Person
+stringToPerson string =
+    case string of
+        "dude" ->
+            Dude
+
+        "dudette" ->
+            Dudette
+
+        "kiddo" ->
+            Kiddo
+
+        _ ->
+            None
+
 
 viewPerson : Person -> Html Msg
 viewPerson person =
@@ -64,7 +84,7 @@ view model =
     div []
         [ viewPerson model.person
         , select
-            [ onInput (\x -> ChangePerson Kiddo) ]
+            [ onInput (\x -> ChangePerson (stringToPerson x)) ]
             (List.map
                 (\x -> option [] [ text (personToText x) ])
                 persons
