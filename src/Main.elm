@@ -94,7 +94,11 @@ personSelect =
         stringToMessage =
             \x -> ChangePerson (stringToPerson x)
     in
-    SelectType.viewSelect stringToMessage personToText []
+    SelectType.viewSelect
+        stringToMessage
+        personToText
+        []
+        []
 
 
 persons : List Person
@@ -148,6 +152,13 @@ foodSelect =
         stringToMessage =
             \x -> ChangeFood (stringToFood x)
 
+        selectAttrs =
+            [ classList
+                [ ( "beep", True )
+                , ( "boop", True )
+                ]
+            ]
+
         optionAttrs =
             [ classList
                 [ ( "foo", True )
@@ -155,7 +166,11 @@ foodSelect =
                 ]
             ]
     in
-    SelectType.viewSelect stringToMessage foodToText optionAttrs
+    SelectType.viewSelect
+        stringToMessage
+        foodToText
+        selectAttrs
+        optionAttrs
 
 
 
