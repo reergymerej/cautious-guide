@@ -95,10 +95,10 @@ personSelect =
             \x -> ChangePerson (stringToPerson x)
     in
     SelectType.viewSelect
-        stringToMessage
         personToText
+        stringToMessage
         []
-        []
+        (\_ -> [])
 
 
 persons : List Person
@@ -160,21 +160,19 @@ foodSelect =
             ]
 
         optionAttrs =
-            [ classList
-                [ ( "foo", True )
-                , ( "bar", True )
+            \food ->
+                [ classList
+                    [ ( "foo", True )
+                    , ( "bar", True )
+                    ]
+                , id (foodToText food ++ "!")
                 ]
-            ]
     in
     SelectType.viewSelect
-        stringToMessage
         foodToText
+        stringToMessage
         selectAttrs
         optionAttrs
-
-
-
--- optionAttrs
 
 
 foods : List Food

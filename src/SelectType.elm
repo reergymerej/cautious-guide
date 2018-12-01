@@ -5,14 +5,21 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
-viewSelect : (String -> msg) -> (a -> String) -> List (Attribute msg) -> List (Attribute msg) -> List a -> a -> Html msg
-viewSelect stringToMsg typeToString selectAttrs optionAttrs types selectedType =
+viewSelect :
+    (a -> String) -- Convert type to string.
+    -> (String -> msg) -- Convert string to message, onInput handler.
+    -> List (Attribute msg) -- Attributes for the select node.
+    -> (a -> List (Attribute msg)) -- Given a type, return a list of attributes to add to its node.
+    -> List a -- List of types to show as options
+    -> a -- The currently selected type
+    -> Html msg
+viewSelect typeToString stringToMsg selectAttrs optionAttrs types selectedType =
     let
         viewOption =
-            \x ->
+            \thisType ->
                 option
-                    (selected (x == selectedType) :: optionAttrs)
-                    [ text (typeToString x) ]
+                    (selected (thisType == selectedType) :: optionAttrs thisType)
+                    [ text (typeToString thisType) ]
     in
     select
         (onInput stringToMsg :: selectAttrs)
