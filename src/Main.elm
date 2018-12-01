@@ -14,14 +14,6 @@ type Person
     | None
 
 
-persons : List Person
-persons =
-    [ Dude
-    , Dudette
-    , Kiddo
-    ]
-
-
 type alias Model =
     { person : Person }
 
@@ -42,20 +34,11 @@ update msg model =
             { model | person = person }
 
 
-personToText : Person -> String
-personToText person =
-    case person of
-        Dude ->
-            "dude"
-
-        Dudette ->
-            "dudette"
-
-        Kiddo ->
-            "kiddo"
-
-        None ->
-            "none"
+viewPerson : Person -> Html Msg
+viewPerson person =
+    div []
+        [ text (personToText person)
+        ]
 
 
 stringToPerson : String -> Person
@@ -74,26 +57,43 @@ stringToPerson string =
             None
 
 
-viewPerson : Person -> Html Msg
-viewPerson person =
-    div []
-        [ text (personToText person)
-        ]
+personToText : Person -> String
+personToText person =
+    case person of
+        Dude ->
+            "dude"
+
+        Dudette ->
+            "dudette"
+
+        Kiddo ->
+            "kiddo"
+
+        None ->
+            "none"
 
 
-view : Model -> Html Msg
-view model =
+personSelect =
     let
         stringToMessage =
             \x -> ChangePerson (stringToPerson x)
     in
+    SelectType.viewSelect stringToMessage personToText
+
+
+persons : List Person
+persons =
+    [ Dude
+    , Dudette
+    , Kiddo
+    ]
+
+
+view : Model -> Html Msg
+view model =
     div []
         [ viewPerson model.person
-        , SelectType.viewSelect
-            stringToMessage
-            personToText
-            persons
-            model.person
+        , personSelect persons model.person
         ]
 
 
