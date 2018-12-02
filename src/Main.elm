@@ -22,6 +22,12 @@ type Food
     | MysteryFood
 
 
+type Cat
+    = Lion
+    | Tiger
+    | Jaguar
+
+
 type alias Model =
     { person : Person
     , food : Food
@@ -38,6 +44,7 @@ init =
 type Msg
     = ChangePerson Person
     | ChangeFood Food
+    | ChangeCat Cat
 
 
 update : Msg -> Model -> Model
@@ -190,6 +197,10 @@ viewFood food =
         [ text (foodToText food)
         ]
 
+catSelect =
+    SelectType.viewSelect =
+        (\cat -> "X")
+        (\string -> SelectType
 
 view : Model -> Html Msg
 view model =
@@ -199,6 +210,8 @@ view model =
         , hr [] []
         , viewFood model.food
         , foodSelect foods model.food
+        , hr [] []
+        , catSelect cats Jaguar
         ]
 
 
